@@ -1,0 +1,48 @@
+# docker build .
+# docker run --rm - ti <image id> 
+
+FROM <image>
+COPY <source> <destination>
+WORKDIR /usr/src/myapp
+RUN gcc -o myapp main.c
+CMD ["./myapp"]
+
+
+FROM alpine
+COPY . /usr/src
+RUN apk update && apk add nano vim gcc nasm gdb
+
+FROM tensorflow/tensorflow 
+RUN apt update && apt upgrade -y && apt nasm -y && apt gdb -y
+RUN python -m pip install --upgrade pip
+RUN pip install scikit-learn 
+
+FROM python:3
+RUN adduser -D myuser
+USER myuser
+WORKDIR /home/myuser
+COPY --chown=myuser:myuser requirements.txt requirements.txt
+RUN pip install --user -r requirements.txt
+ENV PATH="/home/myuser/.local/bin:${PATH}"
+COPY --chown=myuser:myuser . .
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"] 
+
+
+
+RUN useradd -rm -d /home/tf -s /bin/bash -g docker -G sudo -u 1001 -p tf tf
+USER tf
+WORKDIR /home/tf
+
+
+
+Requirements.txt 
+
+pip freeze > requirements.txt 
+
+FROM … 
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt 
+… 
+RUN python -m pip install --upgrade pip
+RUN pip install numpy
+
