@@ -1,0 +1,82 @@
+Docker Commands 
+
+run as sudo
+sudo usermod -aG docker $USER
+ 
+docker pull <image>
+docker images
+docker image rm <image>
+docker rmi <image>
+
+docker run -d -t --name <container name> <image>
+docker run -d -t -p<host port no>:<image port no> -v$PWD:/pwd <image>
+docker run -d -t -v$HOME:/wip <image>
+
+docker start <container id>
+docker stop <container id>
+
+docker ps [-a]
+docker inspect <container id>
+docker logs [|<container id>]
+
+docker rm <container id>
+docker container prune
+ 
+docker exec -it <container id> [/bin/bash | sh |...]
+
+# with Dockerfile
+docker build .
+docker run --rm -ti <image id>
+
+docker build -t <org>/<image name>:<version no.> .
+docker run --rm -ti <org>/<image name>:<version no.> [/bin/bash | sh]
+
+
+
+Dockerfile
+
+FROM <image>
+COPY <source> <destination>
+WORKDIR /usr/src/myapp
+RUN gcc -o myapp main.c
+CMD ["./myapp"]
+
+
+FROM alpine
+RUN apk add nano vim gcc nasm gdb
+RUN apk add python3 py3-pip 
+RUN pip install numpy
+RUN pip install pytesseract 
+RUN useradd -rm -d /home/alp -s /bin/bash -G sudo -u 1001 alp
+USER alp
+WORKDIR /home/alp
+COPY . /home/alp
+
+FROM tensorflow/tensorflow 
+RUN apt update && apt upgrade -y && apt nasm -y && apt gdb -y
+RUN python -m pip install --upgrade pip
+RUN pip install scikit-learn 
+RUN pip install pytesseract 
+
+FROM python:3
+RUN adduser -D myuser
+USER myuser
+WORKDIR /home/myuser
+COPY --chown=myuser:myuser requirements.txt requirements.txt
+RUN pip install --user -r requirements.txt
+ENV PATH="/home/myuser/.local/bin:${PATH}"
+COPY --chown=myuser:myuser . .
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"] 
+
+
+
+Requirements.txt 
+
+pip freeze > requirements.txt 
+
+FROM … 
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt 
+… 
+RUN python -m pip install --upgrade pip
+RUN pip install <additional packages>
