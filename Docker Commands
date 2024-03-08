@@ -1,3 +1,9 @@
+Docker Status
+
+sudo systemctl status docker
+
+
+
 Docker Commands 
 
 run as sudo
