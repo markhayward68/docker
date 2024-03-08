@@ -1,0 +1,48 @@
+# https://github.com/LaurieWired/linux_... 
+
+FROM ubuntu:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    gdb \
+    strace \
+    ltrace \
+    binwalk \
+    yara \
+    hexedit \
+    hexer \
+    wireshark \
+    tcpdump \
+    nmap \
+    p7zip-full \
+    upx-ucl \
+    libimage-exiftool-perl \
+    foremost \
+    scalpel \
+    binutils \
+    elfutils \
+    binutils \
+    checksec \
+    htop \
+    cmake \
+    gcc-multilib \
+    g++-multilib \
+    libc6-dbg \
+    nasm \
+    python3-pip \
+    python3-dev \
+    libssl-dev \
+    libffi-dev \
+    build-essential \
+    manpages-dev \
+    libgmp3-dev \
+    libc6-i386 \
+    libc6-dev-i386 \
+    lib32ncurses5-dev \
+    xinetd \
+    netcat \
+    git
+
+RUN mkdir -p /home/app
+WORKDIR /home/app
