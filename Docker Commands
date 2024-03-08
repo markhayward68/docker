@@ -1,13 +1,24 @@
+Docker Install
+
+sudo apt update / upgrade
+sudo apt install docker.io
+sudo usermod -a -G docker $USER
+sudo groupadd docker && sudo gpasswd -a ${USER} docker && sudo systemctl restart docker
+newgrp docker
+
+
+
 Docker Status
 
 sudo systemctl status docker
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo systemctl stop docker
+sudo systemctl restart docker
 
 
 
-Docker Commands 
-
-run as sudo
-sudo usermod -aG docker $USER
+Docker Commands -- all as sudo
  
 docker pull <image>
 docker images
@@ -46,7 +57,6 @@ COPY <source> <destination>
 WORKDIR /usr/src/myapp
 RUN gcc -o myapp main.c
 CMD ["./myapp"]
-
 
 FROM alpine
 RUN apk add nano vim gcc nasm gdb
